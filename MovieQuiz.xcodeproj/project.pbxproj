@@ -18,7 +18,6 @@
 		C3693BA42AA4BE4F005357D4 /* YS Display-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3693BA12AA4BDD8005357D4 /* YS Display-Medium.ttf */; };
 		C3693BA52AA4BE52005357D4 /* YS Display-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3693BA22AA4BDD8005357D4 /* YS Display-Bold.ttf */; };
 		C3693BA62AA4C40A005357D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD1ABABA2831907F00B3E448 /* Assets.xcassets */; };
-		C3693BAA2AA51072005357D4 /* MovieQuizModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3693BA92AA51072005357D4 /* MovieQuizModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +34,6 @@
 		AD7AFA542836189F00399704 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		C3693BA12AA4BDD8005357D4 /* YS Display-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Medium.ttf"; sourceTree = "<group>"; };
 		C3693BA22AA4BDD8005357D4 /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
-		C3693BA92AA51072005357D4 /* MovieQuizModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +118,6 @@
 		C3693BA82AA51038005357D4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C3693BA92AA51072005357D4 /* MovieQuizModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -201,7 +198,6 @@
 			files = (
 				AD5EE5DE284D7887003966EF /* UIColor+Extensions.swift in Sources */,
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
-				C3693BAA2AA51072005357D4 /* MovieQuizModels.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,

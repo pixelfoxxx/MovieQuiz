@@ -2,6 +2,22 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
+    
+    
+    @IBOutlet private var QuestionTitleLabel: UILabel!
+    @IBOutlet private var IndexLabel: UILabel!
+    @IBOutlet private var PreviewImage: UIImageView!
+    @IBOutlet private var QuestionLabel: UILabel!
+    @IBOutlet private var NoButton: UIButton!
+    @IBOutlet private var YesButton: UIButton!
+    
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

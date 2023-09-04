@@ -20,7 +20,6 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
         imageView.layer.cornerRadius = 20
-        
     }
     
     // models:
@@ -89,8 +88,6 @@ final class MovieQuizViewController: UIViewController {
     // variables for counting questions and correct answers
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
-    
-    
     // method that converts questions to View
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
@@ -122,9 +119,7 @@ final class MovieQuizViewController: UIViewController {
             let viewModel = self.convert(model: firstQuestion)
             self.show(quiz: viewModel)
         }
-        
         alert.addAction(action)
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -139,9 +134,11 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         imageView.layer.cornerRadius = 20
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.showNextQuestionOrResults()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.showNextQuestionOrResults()
         }
+        yesButton.isEnabled = false
+        yesButton.isEnabled = false
     }
     
     // method with models switching logic
@@ -179,7 +176,6 @@ final class MovieQuizViewController: UIViewController {
         
         showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
-    
 }
 
 

@@ -1,37 +1,50 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
-    @IBOutlet private var noButton: UIButton!
-    @IBOutlet private var yesButton: UIButton!
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var questionTitleLabel: UILabel!
-    @IBOutlet private var counterLabel: UILabel!
-    @IBOutlet private var textLabel: UILabel!
+    //MARK: - IBOutlets
+    
+    @IBOutlet weak private var noButton: UIButton!
+    @IBOutlet weak private var yesButton: UIButton!
+    @IBOutlet weak private var imageView: UIImageView!
+    @IBOutlet weak private var questionTitleLabel: UILabel!
+    @IBOutlet weak private var counterLabel: UILabel!
+    @IBOutlet weak private var textLabel: UILabel!
+    
+    //MARK: - Private Properties
     
     private var correctAnswers = 0
     private var currentQuestionIndex = 0
     
-    private let questionFactory: QuestionFactory = QuestionFactory()
-    
     private let questionsAmount: Int = 10
     private var currentQuestion: QuizQuestion?
     
+    private lazy var questionFactory: QuestionFactoryProtocol = { QuestionFactory(delegate: self)
+    }()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImageView()
-        if let firstQuestion = questionFactory.requestNextQuestion() {
-            currentQuestion = firstQuestion
-            let viewModel = convert(model: firstQuestion)
-            show(quiz: viewModel)
+        questionFactory.requestNextQuestion()
+    }
+    
+    //MARK: - QuestionFactoryDelegate
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.show(quiz: viewModel)
         }
     }
     
-    //MARK: - Methods
-    
+    //MARK: - Private methods
     
     private func setupImageView() {
         imageView.layer.masksToBounds = true
@@ -41,12 +54,11 @@ final class MovieQuizViewController: UIViewController {
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        let questionStep = QuizStepViewModel(
+        currentQuestionIndex += 1
+        return QuizStepViewModel(
             image: UIImage(named: model.image) ?? UIImage(),
             question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
-        )
-        return questionStep
+            questionNumber: "\(currentQuestionIndex)/\(questionsAmount)")
     }
     
     private func show(quiz step: QuizStepViewModel) {
@@ -67,12 +79,7 @@ final class MovieQuizViewController: UIViewController {
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
-            if let firstQuestion = self.questionFactory.requestNextQuestion() {
-                self.currentQuestion = firstQuestion
-                let viewModel = self.convert(model: firstQuestion)
-                
-                self.show(quiz: viewModel)
-            }
+            questionFactory.requestNextQuestion()
         }
         
         alert.addAction(action)
@@ -103,8 +110,8 @@ final class MovieQuizViewController: UIViewController {
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
             let text = correctAnswers == questionsAmount ?
-                "Поздравляем, вы ответили на 10 из 10" :
-                "Вы ответили на \(correctAnswers) из 10, попробуйте еще раз!"
+            "Поздравляем, вы ответили на 10 из 10" :
+            "Вы ответили на \(correctAnswers) из 10, попробуйте еще раз!"
             
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
@@ -115,14 +122,8 @@ final class MovieQuizViewController: UIViewController {
             imageView.layer.borderWidth = 0
             
         } else {
-            currentQuestionIndex += 1
-            
-            if let nextQuestion = questionFactory.requestNextQuestion() {
-                let viewModel = convert(model: nextQuestion)
-                
-                show(quiz: viewModel)
-                imageView.layer.borderWidth = 0
-            }
+            questionFactory.requestNextQuestion()
+            imageView.layer.borderWidth = 0
         }
     }
     

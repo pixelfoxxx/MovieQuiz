@@ -22,6 +22,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private lazy var questionFactory: QuestionFactoryProtocol = { QuestionFactory(delegate: self)
     }()
     
+    private lazy var alertPresenter: AlertPresenterDelegate = { 
+        AlertPresenter(VC: self)
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -108,7 +112,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showNextQuestionOrResults() {
-        if currentQuestionIndex == questionsAmount - 1 {
+        if currentQuestionIndex == questionsAmount {
             let text = correctAnswers == questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10" :
             "Вы ответили на \(correctAnswers) из 10, попробуйте еще раз!"

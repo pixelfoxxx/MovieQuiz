@@ -7,27 +7,31 @@
 
 import UIKit
 
+protocol AlertPresenterDelegate: AnyObject {
+    func presentAlert(with model: AlertModel)
+}
+
 class AlertPresenter: AlertPresenterDelegate {
     
-    private let VC: UIViewController
-    
-    init(VC: UIViewController) {
-        self.VC = VC
+    private let viewController: UIViewController
+
+    init(viewController: UIViewController) {
+        self.viewController = viewController
     }
-    
-    func presentAlert(with result: AlertModel) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.message,
+
+    func presentAlert(with model: AlertModel) {
+        let alertController = UIAlertController(
+            title: model.title,
+            message: model.message,
             preferredStyle: .alert
         )
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
-            result.completion()
+
+        let action = UIAlertAction(title: model.buttonText, style: .default) { _ in
+            model.completion()
         }
-        
-        alert.addAction(action)
-        
-        VC.present(alert, animated: true, completion: nil)
+
+        alertController.addAction(action)
+
+        viewController.present(alertController, animated: true, completion: nil)
     }
 }

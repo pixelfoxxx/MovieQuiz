@@ -19,11 +19,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var currentQuestion: QuizQuestion?
     
-    private lazy var questionFactory: QuestionFactoryProtocol = { QuestionFactory(delegate: self)
+    private lazy var questionFactory: QuestionFactoryProtocol = {
+        QuestionFactory(delegate: self)
     }()
     
-    private lazy var alertPresenter: AlertPresenterDelegate = { 
-        AlertPresenter(VC: self)
+    private lazy var alertPresenter: AlertPresenterDelegate = {
+        AlertPresenter(viewController: self)
     }()
     
     // MARK: - Lifecycle
@@ -37,9 +38,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     //MARK: - QuestionFactoryDelegate
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
+        guard let question = question else { return }
         
         currentQuestion = question
         let viewModel = convert(model: question)
@@ -71,26 +70,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         counterLabel.text = step.questionNumber
     }
     
-    private func endGame(quiz result: QuizResultsViewModel) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.text,
-            preferredStyle: .alert)
-        
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            
-            self.currentQuestionIndex = 0
-            self.correctAnswers = 0
-            
-            questionFactory.requestNextQuestion()
-        }
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
-    
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -107,6 +86,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             guard let self = self else { return }
             noButton.isEnabled = true
             yesButton.isEnabled = true
+            imageView.layer.borderWidth = 0
             self.showNextQuestionOrResults()
         }
     }
@@ -122,13 +102,24 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 text: text,
                 buttonText: "Сыграть еще раз")
             
-            endGame(quiz: viewModel)
-            imageView.layer.borderWidth = 0
-            
+            showAlert(quiz: viewModel)
         } else {
             questionFactory.requestNextQuestion()
-            imageView.layer.borderWidth = 0
         }
+    }
+    
+    private func showAlert(quiz result: QuizResultsViewModel) {
+        let alertModel = AlertModel(
+            title: result.title,
+            message: result.text,
+            buttonText: result.buttonText) { [ weak self ] in
+                guard let self else { return }
+                
+                self.currentQuestionIndex = 0
+                self.correctAnswers = 0
+                self.questionFactory.requestNextQuestion()
+            }
+        alertPresenter.presentAlert(with: alertModel)
     }
     
     //MARK: - IBActions

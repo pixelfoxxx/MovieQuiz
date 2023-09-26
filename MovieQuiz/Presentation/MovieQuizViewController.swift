@@ -51,8 +51,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func setupImageView() {
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = QuizProperties.borderWidth
-        imageView.layer.cornerRadius = QuizProperties.cornerRadius
+        imageView.layer.borderWidth = QProperties.borderWidth
+        imageView.layer.cornerRadius = QProperties.cornerRadius
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
     }
     
@@ -77,16 +77,18 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        imageView.layer.borderWidth = QuizProperties.borderWidth
-        imageView.layer.cornerRadius = QuizProperties.cornerRadius
+        imageView.layer.borderWidth = QProperties.borderWidth
+        imageView.layer.cornerRadius = QProperties.cornerRadius
         noButton.isEnabled = false
         yesButton.isEnabled = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
+            
             noButton.isEnabled = true
             yesButton.isEnabled = true
-            imageView.layer.borderWidth = QuizProperties.clearBorder
+            imageView.layer.borderWidth = QProperties.clearBorder
+            
             self.showNextQuestionOrResults()
         }
     }
@@ -94,6 +96,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount {
             let text = correctAnswers == questionsAmount ?
+            
             "Поздравляем, вы ответили на 10 из 10" :
             "Вы ответили на \(correctAnswers) из 10, попробуйте еще раз!"
             

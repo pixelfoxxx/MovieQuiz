@@ -26,6 +26,7 @@
 		C3890CF82AC21D4000D72F9A /* QuestionFactoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3890CF72AC21D4000D72F9A /* QuestionFactoryDelegate.swift */; };
 		C3890CFA2AC2324B00D72F9A /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3890CF92AC2324B00D72F9A /* AlertModel.swift */; };
 		C3890CFC2AC2327600D72F9A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3890CFB2AC2327600D72F9A /* AlertPresenter.swift */; };
+		C3928F152AC35B51002C91B4 /* QuizProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3928F142AC35B51002C91B4 /* QuizProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		C3890CF72AC21D4000D72F9A /* QuestionFactoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionFactoryDelegate.swift; sourceTree = "<group>"; };
 		C3890CF92AC2324B00D72F9A /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		C3890CFB2AC2327600D72F9A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		C3928F142AC35B51002C91B4 /* QuizProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizProperties.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,10 +139,11 @@
 		C31A93542AC0783D00020499 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C3890CF92AC2324B00D72F9A /* AlertModel.swift */,
 				C31A93552AC0785400020499 /* QuizStepViewModel.swift */,
 				C31A93572AC0786700020499 /* QuizResultsViewModel.swift */,
 				C31A93592AC0787700020499 /* QuizQuestion.swift */,
-				C3890CF92AC2324B00D72F9A /* AlertModel.swift */,
+				C3928F142AC35B51002C91B4 /* QuizProperties.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				AD5EE5DE284D7887003966EF /* UIColor+Extensions.swift in Sources */,
 				C3890CFC2AC2327600D72F9A /* AlertPresenter.swift in Sources */,
 				C3890CFA2AC2324B00D72F9A /* AlertModel.swift in Sources */,
+				C3928F152AC35B51002C91B4 /* QuizProperties.swift in Sources */,
 				C31A935E2AC0F71900020499 /* QuestionFactoryProtocol.swift in Sources */,
 				AD7AFA552836189F00399704 /* Array+Extensions.swift in Sources */,
 				C3890CF82AC21D4000D72F9A /* QuestionFactoryDelegate.swift in Sources */,

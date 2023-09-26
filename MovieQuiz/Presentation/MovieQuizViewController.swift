@@ -51,9 +51,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func setupImageView() {
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 8
+        imageView.layer.borderWidth = QuizProperties.borderWidth
+        imageView.layer.cornerRadius = QuizProperties.cornerRadius
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
-        imageView.layer.cornerRadius = 20
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -77,8 +77,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        imageView.layer.borderWidth = 8
-        imageView.layer.cornerRadius = 20
+        imageView.layer.borderWidth = QuizProperties.borderWidth
+        imageView.layer.cornerRadius = QuizProperties.cornerRadius
         noButton.isEnabled = false
         yesButton.isEnabled = false
         
@@ -86,7 +86,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             guard let self = self else { return }
             noButton.isEnabled = true
             yesButton.isEnabled = true
-            imageView.layer.borderWidth = 0
+            imageView.layer.borderWidth = QuizProperties.clearBorder
             self.showNextQuestionOrResults()
         }
     }

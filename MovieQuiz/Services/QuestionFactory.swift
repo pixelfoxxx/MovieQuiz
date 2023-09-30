@@ -9,13 +9,17 @@ import Foundation
 
 final class QuestionFactory: QuestionFactoryProtocol {
     
+    //MARK: - Properties
+    
     weak var delegate: QuestionFactoryDelegate?
+    
+    //MARK: - Init
     
     init(delegate: QuestionFactoryDelegate?) {
         self.delegate = delegate
     }
     
-    // Factory asks questions
+    //MARK: - Functions
     
     func requestNextQuestion() {
         guard let index = (0..<questions.count).randomElement() else {

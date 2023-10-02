@@ -25,12 +25,12 @@ final class StatisticServiceImpl {
     private let userDefaults: UserDefaults
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder
-
+    
     init(
         userDefaults: UserDefaults = .standard,
         decoder: JSONDecoder = JSONDecoder(),
         encoder: JSONEncoder = JSONEncoder()
-    ) {
+    ){
         self.userDefaults = userDefaults
         self.decoder = decoder
         self.encoder = encoder
@@ -76,10 +76,9 @@ extension StatisticServiceImpl: StatisticService {
                 let bestGame = try? decoder.decode(BestGame.self, from: data) else {
                 return nil
             }
-            
             return bestGame
         }
-    
+        
         set {
             let data = try? encoder.encode(newValue)
             userDefaults.set(data, forKey: Keys.bestGame.rawValue)
@@ -96,7 +95,7 @@ extension StatisticServiceImpl: StatisticService {
         self.gamesCount += 1
         
         let currentBestGame = BestGame(correct: correct, total: total, date: Date())
-            
+        
         if let previousBestGame = bestGame {
             if currentBestGame > previousBestGame {
                 bestGame = currentBestGame

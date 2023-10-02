@@ -53,8 +53,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func setupImageView() {
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = QProperties.borderWidth
-        imageView.layer.cornerRadius = QProperties.cornerRadius
+        imageView.layer.borderWidth = QuizProperties.borderWidth
+        imageView.layer.cornerRadius = QuizProperties.cornerRadius
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
     }
     
@@ -71,6 +71,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         counterLabel.text = step.questionNumber
     }
     
+    private func buttonsState(isEnabled: Bool) {
+        noButton.isEnabled = isEnabled
+        yesButton.isEnabled = isEnabled
+    }
+    
     private func showAnswerResult(isCorrect: Bool) {
         if isCorrect {
             correctAnswers += 1
@@ -78,17 +83,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
-        imageView.layer.borderWidth = QProperties.borderWidth
-        imageView.layer.cornerRadius = QProperties.cornerRadius
-        noButton.isEnabled = false
-        yesButton.isEnabled = false
+        imageView.layer.borderWidth = QuizProperties.borderWidth
+        imageView.layer.cornerRadius = QuizProperties.cornerRadius
+        buttonsState(isEnabled: false)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             
-            noButton.isEnabled = true
-            yesButton.isEnabled = true
-            imageView.layer.borderWidth = QProperties.clearBorder
+            buttonsState(isEnabled: true)
+            imageView.layer.borderWidth = QuizProperties.clearBorder
             
             self.showNextQuestionOrResults()
         }
@@ -119,20 +122,19 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         alertPresenter.presentAlert(with: alertModel)
     }
     
-    private func makeResultMessage () -> String {
+    private func makeResultMessage() -> String {
         
         guard let statisticService = statisticService, let bestGame = statisticService.bestGame else {
             return "error"
         }
         
-        let currentGameResultLine = "Ваш результат: \(correctAnswers)\\\(questionsAmount)"
-        let totalPlayCountLine = "Количество сыгранных квизов: \(statisticService.gamesCount)"
-        let bestGameInfoLine = "Рекорд: \(bestGame.correct)\\\(bestGame.total)" + " (\(bestGame.date.dateTimeString))"
-        let averageAccuracyLine = "Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%"
-        
-        let resultMessage = [
-            currentGameResultLine, totalPlayCountLine, bestGameInfoLine, averageAccuracyLine].joined(separator: "\n")
-        
+        let resultMessage =
+        """
+        Ваш результат: \(correctAnswers)\\\(questionsAmount)
+        Количество сыгранных квизов: \(statisticService.gamesCount)
+        Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
+        Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+        """
         return resultMessage
     }
     

@@ -58,12 +58,16 @@ final class QuestionFactory: QuestionFactoryProtocol {
             
             let rating = Float(movie.rating) ?? 0
             
-            let text = "Рейтинг этого фильма больше чем 7?"
-            let correctAnswer = rating > 7
+            let questionsAndAnswers = [
+                ("Рейтинг этого фильма больше чем 7?", rating > 7),
+                ("Рейтинг этого фильма меньше чем 7?", rating < 7)
+            ]
+            
+            let (questionText, correctAnswer) = questionsAndAnswers.randomElement() ?? ("Рейтинг этого фильма больше чем 7?", false)
             
             let question = QuizQuestion(
                 image: imageData,
-                text: text,
+                text: questionText,
                 correctAnswer: correctAnswer)
             
             DispatchQueue.main.async { [weak self] in

@@ -1,7 +1,7 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
-    
+
     //MARK: - IBOutlets
     
     @IBOutlet weak private var noButton: UIButton!
@@ -23,7 +23,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private var statisticService: StatisticService?
     
     private lazy var questionFactory: QuestionFactoryProtocol = {
-        QuestionFactory(delegate: self)
+        QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
     }()
     
     private lazy var alertPresenter: AlertPresenterDelegate = {
@@ -35,8 +35,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImageView()
+        
         questionFactory.requestNextQuestion()
         statisticService = StatisticServiceImpl()
+        
+        showLoadingIndicator()
+        questionFactory.loadData()
     }
     
     //MARK: - QuestionFactoryDelegate
@@ -49,6 +53,15 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
+    }
+    
+    func didLoadDataFromServer() {
+        activityIndicator.isHidden = true
+        questionFactory.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
     }
     
     //MARK: - Private methods
@@ -72,7 +85,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }

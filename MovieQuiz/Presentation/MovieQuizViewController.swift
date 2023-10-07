@@ -10,6 +10,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet weak private var questionTitleLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     @IBOutlet weak private var textLabel: UILabel!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
+    
     
     //MARK: - Private Properties
     
@@ -50,6 +52,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     //MARK: - Private methods
+    
+    private func showLoadingIndicator() {
+        activityIndicator.isHidden = false
+        activityIndicator.startAnimating()
+    }
+    
+    private func hideLoadingIndicator() {
+        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
+    }
     
     private func setupImageView() {
         imageView.layer.masksToBounds = true
@@ -106,6 +118,23 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
+    private func showNetworkError(message: String) {
+        
+        hideLoadingIndicator()
+        
+        let errorAlertModel = AlertModel(
+            title: "Ошибка",
+            message: message,
+            buttonText: "Попробовать еще раз") { [weak self] in
+                guard let self else { return }
+                
+                self.currentQuestionIndex = 0
+                self.correctAnswers = 0
+                self.questionFactory.requestNextQuestion()
+            }
+        alertPresenter.presentAlert(with: errorAlertModel)
+    }
+    
     private func showAlert() {
         statisticService?.store(correct: correctAnswers, total: questionsAmount)
         
@@ -124,17 +153,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func makeResultMessage() -> String {
         
-        guard let statisticService = statisticService, let bestGame = statisticService.bestGame else {
-            return "error"
-        }
+        guard let statisticService = statisticService, let bestGame = statisticService.bestGame else { return "error" }
         
         let resultMessage =
+        
         """
         Ваш результат: \(correctAnswers)\\\(questionsAmount)
         Количество сыгранных квизов: \(statisticService.gamesCount)
         Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
         Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
         """
+        
         return resultMessage
     }
     

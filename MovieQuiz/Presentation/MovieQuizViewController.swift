@@ -169,14 +169,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let statisticService = statisticService, let bestGame = statisticService.bestGame else { return "error" }
         
         let resultMessage =
-        
         """
         Ваш результат: \(correctAnswers)\\\(questionsAmount)
         Количество сыгранных квизов: \(statisticService.gamesCount)
         Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
         Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
         """
-        
         return resultMessage
     }
     

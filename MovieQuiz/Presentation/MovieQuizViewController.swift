@@ -154,7 +154,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
             message: makeResultMessage() ,
-            buttonText: "Сыграть еще раз") { [ weak self ] in
+            buttonText: "Сыграть ещё раз") { [ weak self ] in
                 guard let self else { return }
                 
                 self.currentQuestionIndex = 0

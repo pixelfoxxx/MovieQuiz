@@ -35,6 +35,7 @@
 		C3890CFA2AC2324B00D72F9A /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3890CF92AC2324B00D72F9A /* AlertModel.swift */; };
 		C3890CFC2AC2327600D72F9A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3890CFB2AC2327600D72F9A /* AlertPresenter.swift */; };
 		C3928F152AC35B51002C91B4 /* QuizProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3928F142AC35B51002C91B4 /* QuizProperties.swift */; };
+		C3B823F52ADB0F2A00D393B6 /* MovieQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B823F42ADB0F2A00D393B6 /* MovieQuizPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		C3890CF92AC2324B00D72F9A /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		C3890CFB2AC2327600D72F9A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		C3928F142AC35B51002C91B4 /* QuizProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizProperties.swift; sourceTree = "<group>"; };
+		C3B823F42ADB0F2A00D393B6 /* MovieQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
+				C3B823F42ADB0F2A00D393B6 /* MovieQuizPresenter.swift */,
 				C3890CFB2AC2327600D72F9A /* AlertPresenter.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
 			);
@@ -379,6 +382,7 @@
 				C3890CF82AC21D4000D72F9A /* QuestionFactoryDelegate.swift in Sources */,
 				AD1ABAB62831907B00B3E448 /* MovieQuizViewController.swift in Sources */,
 				C31A93562AC0785400020499 /* QuizStepViewModel.swift in Sources */,
+				C3B823F52ADB0F2A00D393B6 /* MovieQuizPresenter.swift in Sources */,
 				C31A935A2AC0787700020499 /* QuizQuestion.swift in Sources */,
 				C31A93532AC075B800020499 /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,

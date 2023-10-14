@@ -1,7 +1,7 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
-
+    
     //MARK: - IBOutlets
     
     @IBOutlet weak private var noButton: UIButton!
@@ -16,11 +16,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     //MARK: - Private Properties
     
     private var correctAnswers = 0
-    private var currentQuestionIndex = 0
-    
-    private let questionsAmount: Int = 10
     private var currentQuestion: QuizQuestion?
     private var statisticService: StatisticService?
+    private let presenter = MovieQuizPresenter()
     
     private lazy var questionFactory: QuestionFactoryProtocol = {
         QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
@@ -49,7 +47,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let question = question else { return }
         
         currentQuestion = question
-        let viewModel = convert(model: question)
+        let viewModel = presenter.convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: viewModel)
         }
@@ -81,13 +79,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.borderWidth = QuizProperties.borderWidth
         imageView.layer.cornerRadius = QuizProperties.cornerRadius
         imageView.layer.borderColor = UIColor.ypBlack.cgColor
-    }
-    
-    private func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
     private func show(quiz step: QuizStepViewModel) {
@@ -123,10 +114,10 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showNextQuestionOrResults() {
-        if currentQuestionIndex == questionsAmount - 1 {
+        if presenter.isLastQuestion() {
             showAlert()
         } else {
-            currentQuestionIndex += 1
+            presenter.switchToNextQuestion()
             questionFactory.requestNextQuestion()
         }
     }
@@ -141,7 +132,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             buttonText: "Попробовать еще раз") { [weak self] in
                 guard let self else { return }
                 
-                self.currentQuestionIndex = 0
+                self.presenter.resetQuestionIndex()
                 self.correctAnswers = 0
                 self.questionFactory.requestNextQuestion()
             }
@@ -149,7 +140,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func showAlert() {
-        statisticService?.store(correct: correctAnswers, total: questionsAmount)
+        statisticService?.store(correct: correctAnswers, total: presenter.questionsAmount)
         
         let alertModel = AlertModel(
             title: "Этот раунд окончен!",
@@ -157,7 +148,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             buttonText: "Сыграть ещё раз") { [ weak self ] in
                 guard let self else { return }
                 
-                self.currentQuestionIndex = 0
+                self.presenter.resetQuestionIndex()
                 self.correctAnswers = 0
                 self.questionFactory.requestNextQuestion()
             }
@@ -170,7 +161,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         let resultMessage =
         """
-        Ваш результат: \(correctAnswers)\\\(questionsAmount)
+        Ваш результат: \(correctAnswers)\\\(presenter.questionsAmount)
         Количество сыгранных квизов: \(statisticService.gamesCount)
         Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
         Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%

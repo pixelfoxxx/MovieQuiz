@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, MovieQuizViewControllerProtocol {
     
     //MARK: - IBOutlets
     
@@ -13,9 +13,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
     private var presenter: MovieQuizPresenter!
-    private lazy var alertPresenter: AlertPresenterDelegate = {
-        AlertPresenter(viewController: self)
-    }()
+    private var alertPresenter: AlertPresenterDelegate?
     
     //MARK: - Lifecycle
     
@@ -23,6 +21,7 @@ final class MovieQuizViewController: UIViewController {
         super.viewDidLoad()
         setupImageView()
         presenter = MovieQuizPresenter(viewController: self)
+        alertPresenter = AlertPresenter(viewController: self)
     }
     
     //MARK: - IBActions
@@ -65,7 +64,7 @@ final class MovieQuizViewController: UIViewController {
                 
                 presenter.restartGame()
             }
-        alertPresenter.presentAlert(with: alertModel)
+        alertPresenter?.presentAlert(with: alertModel)
     }
     
     func showNetworkError(message: String) {
@@ -80,7 +79,7 @@ final class MovieQuizViewController: UIViewController {
                 
                 presenter.restartGame()
             }
-        alertPresenter.presentAlert(with: errorAlertModel)
+        alertPresenter?.presentAlert(with: errorAlertModel)
     }
     
     func showLoadingIndicator() {

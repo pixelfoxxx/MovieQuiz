@@ -5,3 +5,4 @@ MovieQuiz is a Swift-based iOS application designed to entertain users by asking
 - IMDb Integration: MovieQuiz uses the IMDb API to fetch accurate and current data about movies, ensuring that the questions are relevant and reliable.
 - Best Game System: Users earn points based on their correct answers, allowing them to track their progress and compete with friends or other users.
 - User Engagement: The app is designed to engage users through various challenging and interesting questions, covering different genres, decades, and movie-related facts.
+![image](https://github.com/pixelfoxxx/MovieQuiz/assets/98941121/c94d2b57-bfc5-4e48-8584-285d85b1f977)

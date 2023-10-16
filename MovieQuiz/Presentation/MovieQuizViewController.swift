@@ -12,7 +12,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
-    private var presenter: MovieQuizPresenter!
+    private var presenter: MovieQuizPresenter?
     private var alertPresenter: AlertPresenterDelegate?
     
     //MARK: - Lifecycle
@@ -27,14 +27,14 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     //MARK: - IBActions
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        presenter.noButtonClicked()
+        presenter?.noButtonClicked()
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        presenter.yesButtonClicked()
+        presenter?.yesButtonClicked()
     }
     
-    //MARK: - Private methods
+    //MARK: - VC Methods
     
     func show(quiz step: QuizStepViewModel) {
         buttonsState(isEnabled: true)
@@ -53,16 +53,18 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func showAlert() {
-        let message = presenter.makeResultMessage()
+        
+        guard let presenterMessage = presenter?.makeResultMessage() else { return }
+        
         let endGameTitle = "Этот раунд окончен!"
         
         let alertModel = AlertModel(
             title: endGameTitle,
-            message: message,
+            message: presenterMessage ,
             buttonText: "Сыграть ещё раз") { [ weak self ] in
                 guard let self else { return }
                 
-                presenter.restartGame()
+                presenter?.restartGame()
             }
         alertPresenter?.presentAlert(with: alertModel)
     }
@@ -77,7 +79,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
             buttonText: "Попробовать еще раз") { [weak self] in
                 guard let self else { return }
                 
-                presenter.restartGame()
+                presenter?.restartGame()
             }
         alertPresenter?.presentAlert(with: errorAlertModel)
     }

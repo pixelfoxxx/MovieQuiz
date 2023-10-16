@@ -9,7 +9,7 @@ import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
-    private let statisticService: StatisticService!
+    private let statisticService: StatisticService?
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
     
@@ -85,9 +85,9 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func makeResultMessage() -> String {
-        statisticService.store(correct: correctAnswers, total: questionsAmount)
+        statisticService?.store(correct: correctAnswers, total: questionsAmount)
         
-        guard let bestGame = statisticService.bestGame else { return "error" }
+        guard let statisticService = statisticService, let bestGame = statisticService.bestGame else { return "error" }
         
         let resultMessage =
         """

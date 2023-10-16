@@ -15,6 +15,7 @@ struct MostPopularMovies: Codable {
 struct MostPopularMovie: Codable {
     let title: String
     let rating: String
+    let year: String
     let imageURL: URL
     var resizedImageURL: URL {
         
@@ -30,6 +31,6 @@ struct MostPopularMovie: Codable {
         case title = "fullTitle"
         case rating = "imDbRating"
         case imageURL = "image"
-        
+        case year = "year"
     }
 }

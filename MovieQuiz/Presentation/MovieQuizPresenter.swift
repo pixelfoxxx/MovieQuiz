@@ -91,10 +91,11 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         
         let resultMessage =
         """
-        Ваш результат: \(correctAnswers)\\\(questionsAmount)
-        Количество сыгранных квизов: \(statisticService.gamesCount)
-        Рекорд: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
-        Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
+        
+        Your result: \(correctAnswers)\\\(questionsAmount)
+        Games played: \(statisticService.gamesCount)
+        Average accuracy: \(String(format: "%.2f", statisticService.totalAccuracy))%
+        Best game: \(bestGame.correct)\\\(bestGame.total) (\(bestGame.date.dateTimeString))
         """
         return resultMessage
     }

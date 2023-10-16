@@ -7,23 +7,60 @@
 
 import UIKit
 
-final class MovieQuizPresenter {
+final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     let questionsAmount: Int = 10
     var currentQuestionIndex: Int = 0
+    var correctAnswers = 0
     var currentQuestion: QuizQuestion?
     weak var viewController: MovieQuizViewController?
+    
+    lazy var questionFactory: QuestionFactoryProtocol = {
+        QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+    }()
     
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
     
-    func resetQuestionIndex() {
+    func restartGame() {
         currentQuestionIndex = 0
+        correctAnswers = 0
+        questionFactory.requestNextQuestion()
     }
     
     func switchToNextQuestion() {
         currentQuestionIndex += 1
+    }
+    
+    //MARK: - QuestionFactoryDelegate
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else { return }
+        
+        currentQuestion = question
+        let viewModel = self.convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
+    }
+    
+    func didLoadDataFromServer() {
+        viewController?.hideLoadingIndicator()
+        questionFactory.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        viewController?.showNetworkError(message: error.localizedDescription)
+    }
+    
+    func showNextQuestionOrResults() {
+        if isLastQuestion() {
+            viewController?.showAlert()
+        } else {
+            switchToNextQuestion()
+            questionFactory.requestNextQuestion()
+        }
     }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -39,7 +76,7 @@ final class MovieQuizPresenter {
         }
         
         let givenAnswer = true
-         
+        
         viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
     }
     

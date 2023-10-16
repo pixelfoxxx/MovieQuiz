@@ -56,12 +56,12 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         
         guard let presenterMessage = presenter?.makeResultMessage() else { return }
         
-        let endGameTitle = "Этот раунд окончен!"
+        let endGameTitle = "This round is over!"
         
         let alertModel = AlertModel(
             title: endGameTitle,
             message: presenterMessage ,
-            buttonText: "Сыграть ещё раз") { [ weak self ] in
+            buttonText: "Play again") { [ weak self ] in
                 guard let self else { return }
                 
                 presenter?.restartGame()
@@ -74,9 +74,9 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         hideLoadingIndicator()
         
         let errorAlertModel = AlertModel(
-            title: "Ошибка",
+            title: "Error",
             message: message,
-            buttonText: "Попробовать еще раз") { [weak self] in
+            buttonText: "Try again") { [weak self] in
                 guard let self else { return }
                 
                 presenter?.restartGame()

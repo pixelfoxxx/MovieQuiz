@@ -50,14 +50,19 @@ final class QuestionFactory: QuestionFactoryProtocol {
                 print("Failed to load image")
             }
             
-            let rating = Float(movie.rating) ?? 0
+            //MARK: - Question Generator
             
+            let rating = Float(movie.rating) ?? 0
+            let year = Int(movie.year) ?? 0
             let questionsAndAnswers = [
-                ("Рейтинг этого фильма больше чем 7?", rating > 7),
-                ("Рейтинг этого фильма меньше чем 7?", rating < 7)
+                ("Is the rating of this movie higher than 7?", rating > 7),
+                ("Was this movie filmed before the year 2000?", year < 2000),
+                ("Was this movie filmed after the year 2010?", year > 2010),
+                ("Was this movie filmed after the year 2020?", year > 2020),
+                ("Was this movie filmed before the year 1980?", year > 1980)
             ]
             
-            let (questionText, correctAnswer) = questionsAndAnswers.randomElement() ?? ("Рейтинг этого фильма больше чем 7?", false)
+            let (questionText, correctAnswer) = questionsAndAnswers.randomElement() ?? ("Is the rating of this movie higher than 7?", false)
             
             let question = QuizQuestion(
                 image: imageData,
